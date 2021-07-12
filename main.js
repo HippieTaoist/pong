@@ -29,19 +29,22 @@ let computerPaddleYVelocity = 1;
 // Add Direction Variable to Computer Paddle
 let compPaddleUpDown = 0
 
+let keyStroke
+
 
 // Get the player paddle element
 const playerPaddle = document.querySelector('.player-paddle');
 // The y-velocity of the computer paddle
 let playerPaddleYPosition = 0;
 let playerPaddleYVelocity = 1;
-// Add Direction Variable to Computer Paddle
-let playPaddleUpDown = 0
-
-function andGo() {
 
 
-}
+window.addEventListener('keydown', playerPaddleMove(keyStroke))
+    // Might Not Need
+    // // Add Direction Variable to Computer Paddle
+    // let playPaddleUpDown = 0
+
+
 
 // Update the pong world
 function update() {
@@ -66,10 +69,9 @@ function update() {
     //     }
     // }
 
-    // Computer Paddle Follow - compPaddle Movement
-    computerPaddleYPosition = ballYPos - 50
+    followBall();
 
-    // Apply the y-position 
+    // Apply the Computer Paddle y-position 
     computerPaddle.style.top = `${computerPaddleYPosition}px`;
 
 
@@ -81,26 +83,12 @@ function update() {
 
 
     // Ball Movement y-position
-    if (ballUpDown === 0) {
-        if (-1 < ballYPos < 480) {
-            ballYPos = ballYPos + ballYVel
-        }
-        if (ballYPos >= 480) {
-            ballUpDown = 1
-        }
-    }
-    if (ballUpDown === 1) {
-        if (480 > ballYPos > -1) {
-            ballYPos = ballYPos - ballYVel
-        }
-        if (ballYPos <= -1) {
-            ballUpDown = 0
+    ballMoveUp();
 
-        }
-    }
+    ballMoveDown();
 
-    // Interactive Paddle
-
+    // Interactive Paddle y-position
+    playerPaddleMove();
 
 
 
@@ -118,6 +106,15 @@ function resetBall() {
     ballXVel = 0
     ballYVel = 0
 
+}
+
+function andGo() {
+    // setup key input to start ball moving again. Random aspect to decide which way to go Comp or Player.
+}
+
+function followBall() {
+    // Computer Paddle Follow - compPaddle Movement
+    computerPaddleYPosition = ballYPos - 50
 }
 
 function ballMoveRight() {
@@ -146,6 +143,53 @@ function ballMoveLeft() {
         }
     }
 }
+
+function ballMoveUp() {
+    if (ballUpDown === 0) {
+        if (-1 < ballYPos < 480) {
+            ballYPos = ballYPos + ballYVel
+        }
+        if (ballYPos >= 480) {
+            ballUpDown = 1
+        }
+    }
+}
+
+function ballMoveDown() {
+    if (ballUpDown === 1) {
+        if (480 > ballYPos > -1) {
+            ballYPos = ballYPos - ballYVel
+        }
+        if (ballYPos <= -1) {
+            ballUpDown = 0
+
+        }
+    }
+}
+
+function playerPaddleMove(keyStroke) {
+    switch (keyStroke.key) {
+        case "Down":
+        case "ArrowDown":
+            playerPaddleYPosition -= 1
+
+            break;
+        case "Up":
+        case "ArrowUp":
+            playerPaddleYPosition = +1
+            break;
+
+
+
+        default:
+            break;
+    }
+
+
+
+
+}
+
 
 
 
