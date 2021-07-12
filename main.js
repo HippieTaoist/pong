@@ -16,15 +16,38 @@ const computerPaddle = document.querySelector('.computer-paddle');
 let computerPaddleYPosition = 0;
 let computerPaddleYVelocity = 1;
 
+// Add Directoin Variable
+let upDown = 0
+
 // Update the pong world
 function update() {
 
-    // Update the computer paddle's position
-    computerPaddleYPosition = computerPaddleYPosition + computerPaddleYVelocity;
+    if (upDown === 0) {
+        if (-1 < computerPaddleYPosition < 400) {
+            // Update the computer paddle's position
+            computerPaddleYPosition = computerPaddleYPosition + computerPaddleYVelocity;
+        }
+        if (computerPaddleYPosition >= 400) {
+            upDown = 1
+        }
+    }
+    if (upDown === 1) {
+        if (400 > computerPaddleYPosition > -1) {
+            computerPaddleYPosition = computerPaddleYPosition - computerPaddleYVelocity
+        }
+        if (computerPaddleYPosition <= -1) {
+            upDown = 0
+        }
+    }
 
     // Apply the y-position 
     computerPaddle.style.top = `${computerPaddleYPosition}px`;
 }
 
+
+
+
+
+
 // Call the update() function every 35ms
-setInterval(update, 35);
+setInterval(update, 5);
