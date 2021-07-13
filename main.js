@@ -39,7 +39,7 @@ let playerPaddleYPosition = 0;
 let playerPaddleYVelocity = 1;
 
 
-window.addEventListener('keydown', playerPaddleMove(keyStroke))
+document.addEventListener('keydown', playerPaddleMove)
     // Might Not Need
     // // Add Direction Variable to Computer Paddle
     // let playPaddleUpDown = 0
@@ -74,7 +74,8 @@ function update() {
     // Apply the Computer Paddle y-position 
     computerPaddle.style.top = `${computerPaddleYPosition}px`;
 
-
+    // Apply the Computer Paddle y-position 
+    playerPaddle.style.top = `${playerPaddleYPosition}px`;
 
     // Ball Movement x-position
     ballMoveRight();
@@ -88,7 +89,7 @@ function update() {
     ballMoveDown();
 
     // Interactive Paddle y-position
-    playerPaddleMove();
+    // playerPaddleMove();
 
 
 
@@ -108,9 +109,9 @@ function resetBall() {
 
 }
 
-function andGo() {
-    // setup key input to start ball moving again. Random aspect to decide which way to go Comp or Player.
-}
+// function andGo() {
+//     // setup key input to start ball moving again. Random aspect to decide which way to go Comp or Player.
+// }
 
 function followBall() {
     // Computer Paddle Follow - compPaddle Movement
@@ -167,20 +168,17 @@ function ballMoveDown() {
     }
 }
 
-function playerPaddleMove(keyStroke) {
-    switch (keyStroke.key) {
+function playerPaddleMove(playerPaddle) {
+    console.log(playerPaddle)
+    switch (playerPaddle.key) {
         case "Down":
         case "ArrowDown":
-            playerPaddleYPosition -= 1
-
+            playerPaddleYPosition += 10
             break;
         case "Up":
         case "ArrowUp":
-            playerPaddleYPosition = +1
+            playerPaddleYPosition -= 10
             break;
-
-
-
         default:
             break;
     }
