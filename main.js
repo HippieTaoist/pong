@@ -43,7 +43,8 @@ document.addEventListener('keydown', playerInput)
 // Keep Score
 compScore = 0
 playerScore = 0
-
+const scoreAreaPlayer = document.querySelector('.score-area-player')
+const scoreAreaComp = document.querySelector('.score-area-comp')
 
 // Update the pong world
 function update() {
@@ -95,6 +96,11 @@ function update() {
 
     // Apply Ball y-position
     bouncingBall.style.top = `${ballYPos}px`
+
+    // -------------------------Apply Scores
+
+    scoreAreaComp.innerHTML = compScore
+    scoreAreaPlayer.innerHTML = playerScore
 }
 
 function resetBall() {
