@@ -16,7 +16,8 @@ let ballXPos = 0
 let ballYPos = 0
 let ballXVel = 1
 let ballYVel = 1
-    // Add x-Position Direction
+
+// Add x-Position Direction
 let ballLeftRight = 0
     // Add y-Position Direction
 let ballUpDown = 0
@@ -37,9 +38,11 @@ let playerPaddleYPosition = 0;
 let playerPaddleYVelocity = 1;
 
 // Capture Player Keystroke
-document.addEventListener('keydown', playerPaddleMove)
+document.addEventListener('keydown', playerInput)
 
-
+// Keep Score
+compScore = 0
+playerScore = 0
 
 
 // Update the pong world
@@ -67,12 +70,6 @@ function update() {
 
     followBall();
 
-    // Apply the Computer Paddle y-position 
-    computerPaddle.style.top = `${computerPaddleYPosition}px`;
-
-    // Apply the Computer Paddle y-position 
-    playerPaddle.style.top = `${playerPaddleYPosition}px`;
-
     // Ball Movement x-position
     ballMoveRight();
 
@@ -83,6 +80,14 @@ function update() {
     ballMoveUp();
 
     ballMoveDown();
+
+    //----------------Apply Positions
+
+    // Apply the Computer Paddle y-position 
+    computerPaddle.style.top = `${computerPaddleYPosition}px`;
+
+    // Apply the Computer Paddle y-position 
+    playerPaddle.style.top = `${playerPaddleYPosition}px`;
 
 
     // Apply Ball x-position
@@ -100,9 +105,23 @@ function resetBall() {
 
 }
 
-// function andGo() {
-//     // setup key input to start ball moving again. Random aspect to decide which way to go Comp or Player.
-// }
+
+function andGo() {
+    ballXVel = 1
+    ballYVel = 1
+    if (ballLeftRight === 0) {
+        ballMoveRight();
+        ballMoveDown()
+        console.log('ball move right', ballLeftRight)
+    }
+    if (ballLeftRight === 1) {
+        ballMoveLeft();
+        ballMoveUp()
+        console.log('ball move left', ballLeftRight)
+    }
+    // setup key input to start ball moving again. Random aspect to decide which way to go Comp or Player.
+    update()
+}
 
 function followBall() {
     // Computer Paddle Follow - compPaddle Movement
@@ -125,7 +144,6 @@ function ballMoveRight() {
 
 function ballMoveLeft() {
     if (ballXPos === 20 && (playerPaddleYPosition <= ballYPos && ballYPos <= (playerPaddleYPosition + 100))) {
-        console.log('Inner Ball Mover')
         ballLeftRight = 0
         ballMoveRight();
     }
@@ -136,7 +154,8 @@ function ballMoveLeft() {
             ballXPos = ballXPos - ballXVel
         }
         if (ballXPos <= -1) {
-            ballLeftRight = 0
+            // ballLeftRight = 0
+            compScore += 1
             resetBall()
         }
     }
@@ -165,8 +184,7 @@ function ballMoveDown() {
     }
 }
 
-function playerPaddleMove(playerPaddle) {
-    console.log(playerPaddleYPosition)
+function playerInput(playerPaddle) {
     switch (playerPaddle.key) {
         case "Down":
         case "ArrowDown":
@@ -176,6 +194,9 @@ function playerPaddleMove(playerPaddle) {
         case "ArrowUp":
             playerPaddleYPosition -= 10
             break;
+        case "Enter":
+            andGo()
+            break;
         default:
             break;
     }
@@ -184,6 +205,11 @@ function playerPaddleMove(playerPaddle) {
 
 
 }
+
+// // randomizer for game
+// function rando(num) {
+//     return Math.random
+// }
 
 
 
