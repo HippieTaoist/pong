@@ -41,6 +41,7 @@ let playerPaddleYVelocity = 1;
 document.addEventListener('keydown', playerInput)
 
 // Keep Score
+challenge = 1
 compScore = 0
 playerScore = 0
 const scoreAreaPlayer = document.querySelector('.score-area-player')
@@ -49,58 +50,7 @@ const scoreAreaComp = document.querySelector('.score-area-comp')
 // Update the pong world
 function update() {
 
-
-    // // Computer Paddle Auto compPaddleUpDown Movement - COMPLETE
-    // if (compPaddleUpDown === 0) {
-    //     if (-1 < computerPaddleYPosition < 400) {
-    //         // Update the computer paddle's position
-    //         computerPaddleYPosition = computerPaddleYPosition + computerPaddleYVelocity;
-    //     }
-    //     if (computerPaddleYPosition >= 400) {
-    //         compPaddleUpDown = 1
-    //     }
-    // }
-    // if (compPaddleUpDown === 1) {
-    //     if (400 > computerPaddleYPosition > -1) {
-    //         computerPaddleYPosition = computerPaddleYPosition - computerPaddleYVelocity
-    //     }
-    //     if (computerPaddleYPosition <= -1) {
-    //         compPaddleUpDown = 0
-    //     }
-    // }
-
-    followBall();
-
-    // Ball Movement x-position
-    ballMoveRight();
-
-    ballMoveLeft();
-
-
-    // Ball Movement y-position
-    ballMoveUp();
-
-    ballMoveDown();
-
-    //----------------Apply Positions
-
-    // Apply the Computer Paddle y-position 
-    computerPaddle.style.top = `${computerPaddleYPosition}px`;
-
-    // Apply the Computer Paddle y-position 
-    playerPaddle.style.top = `${playerPaddleYPosition}px`;
-
-
-    // Apply Ball x-position
-    bouncingBall.style.left = `${ballXPos}px`
-
-    // Apply Ball y-position
-    bouncingBall.style.top = `${ballYPos}px`
-
-    // -------------------------Apply Scores
-
-    scoreAreaComp.innerHTML = compScore
-    scoreAreaPlayer.innerHTML = playerScore
+    playerCompete()
 }
 
 function resetBall() {
@@ -129,21 +79,122 @@ function andGo() {
     update()
 }
 
-function followBall() {
+function followBallComputer() {
     // Computer Paddle Follow - compPaddle Movement
     computerPaddleYPosition = ballYPos - 50
 }
 
+function followBallPlayer() {
+    // Computer Paddle Follow - compPaddle Movement
+    playerPaddleYPosition = ballYPos - 50
+}
+
+function playersAdvantage() {
+    // if (Math.floor(Math.random) % 2 === 0) {
+    //     computerPaddleYPosition = rando(ballYPos) + computerPaddleYPosition
+    //     if (rando(42) % 2 === 0) {
+    //         computerPaddleYPosition += 42;
+    //         if (computerPaddleYPosition >= 700) {
+    //             computerPaddleYPosition = 700
+    //         }
+    //         if (computerPaddleYPosition <= 0) { computerPaddleYPosition = 0 }
+
+    //     } else {
+    //         computerPaddleYPosition = rando(ballYPos) - computerPaddleYPosition;
+    //         if (computerPaddleYPosition >= 700) {
+    //             computerPaddleYPosition = 700
+    //         }
+    //         if (computerPaddleYPosition <= 0) { computerPaddleYPosition = 0 }
+    //     }
+    //     console.log(computerPaddleYPosition)
+
+    // }
+    computerPaddleYPosition = computerPaddleYPosition + Math.floor(Math.random() * computerPaddleYVelocity)
+    if (computerPaddleYPosition > 600)
+        computerPaddleYVelocity = 600
+}
+if (computerPaddleYPosition < 0) { computerPaddleYPosition = 0 }
+
+function playerCompete() {
+    // this is a demo where both sides play and neer a winner will be had.
+    if (challenge === 1) {
+        followBallPlayer()
+        followBallComputer();
+        ballMoveRight();
+        ballMoveLeft();
+        ballMoveUp();
+        ballMoveDown();
+        computerPaddle.style.top = `${computerPaddleYPosition}px`;
+        playerPaddle.style.top = `${playerPaddleYPosition}px`;
+        bouncingBall.style.left = `${ballXPos}px`
+        bouncingBall.style.top = `${ballYPos}px`
+        scoreAreaComp.innerHTML = compScore
+        scoreAreaPlayer.innerHTML = playerScore
+    }
+    if (challenge === 2) {
+        followBallComputer();
+        ballMoveRight();
+        ballMoveLeft();
+        ballMoveUp();
+        ballMoveDown();
+        computerPaddle.style.top = `${computerPaddleYPosition}px`;
+        playerPaddle.style.top = `${playerPaddleYPosition}px`;
+        bouncingBall.style.left = `${ballXPos}px`
+        bouncingBall.style.top = `${ballYPos}px`
+        scoreAreaComp.innerHTML = compScore
+        scoreAreaPlayer.innerHTML = playerScore
+    }
+    if (challenge === 3) {
+
+        playersAdvantage();
+        ballMoveRight();
+        ballMoveLeft();
+        ballMoveUp();
+        ballMoveDown();
+        computerPaddle.style.top = `${computerPaddleYPosition}px`;
+        playerPaddle.style.top = `${playerPaddleYPosition}px`;
+        bouncingBall.style.left = `${ballXPos}px`
+        bouncingBall.style.top = `${ballYPos}px`
+        scoreAreaComp.innerHTML = compScore
+        scoreAreaPlayer.innerHTML = playerScore
+
+
+
+
+    }
+}
+
+// function ballMoveRightOrigTemp() {
+//     // Ball Moving right twoards comp paddle
+//     if (ballLeftRight === 0) {
+//         if (-1 < ballXPos < 659) {
+//             ballXPos = ballXPos + ballXVel
+//         }
+
+//         //Ball hit Paddle (ALWAYS IN MIDDLE)
+//         if (ballXPos >= 660) {
+//             ballLeftRight = 1
+//         }
+//     }
+// }
+
+
+
 function ballMoveRight() {
-    // Ball Moving right twoards comp paddle
+    if (ballXPos === 680 && (computerPaddleYPosition <= ballYPos && ballYPos <= (computerPaddleYPosition + 100))) {
+        ballLeftRight = 1
+        ballMoveLeft();
+    }
+
+    //  Returning Ball from Player Paddle
     if (ballLeftRight === 0) {
-        if (-1 < ballXPos < 659) {
+        if (-1 < ballXPos < 680) {
             ballXPos = ballXPos + ballXVel
         }
-
-        //Ball hit Paddle (ALWAYS IN MIDDLE)
-        if (ballXPos >= 660) {
+        if (ballXPos >= 681) {
             ballLeftRight = 1
+            playerScore += 1
+            resetBall()
         }
     }
 }
@@ -203,6 +254,18 @@ function playerInput(playerPaddle) {
         case "Enter":
             andGo()
             break;
+        case "1":
+            challenge = 1
+            break;
+        case "2":
+            challenge = 2
+            break;
+        case "3":
+            challenge = 3
+            break;
+        case "4":
+            challenge = 4
+            break;
         default:
             break;
     }
@@ -212,10 +275,10 @@ function playerInput(playerPaddle) {
 
 }
 
-// // randomizer for game
-// function rando(num) {
-//     return Math.random
-// }
+function rando(number) {
+    return Math.floor(Math.random() * number)
+
+}
 
 
 
