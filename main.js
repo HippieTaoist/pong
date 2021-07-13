@@ -29,8 +29,6 @@ let computerPaddleYVelocity = 1;
 // Add Direction Variable to Computer Paddle
 let compPaddleUpDown = 0
 
-let keyStroke
-
 
 // Get the player paddle element
 const playerPaddle = document.querySelector('.player-paddle');
@@ -38,11 +36,9 @@ const playerPaddle = document.querySelector('.player-paddle');
 let playerPaddleYPosition = 0;
 let playerPaddleYVelocity = 1;
 
-
+// Capture Player Keystroke
 document.addEventListener('keydown', playerPaddleMove)
-    // Might Not Need
-    // // Add Direction Variable to Computer Paddle
-    // let playPaddleUpDown = 0
+
 
 
 
@@ -88,11 +84,6 @@ function update() {
 
     ballMoveDown();
 
-    // Interactive Paddle y-position
-    // playerPaddleMove();
-
-
-
 
     // Apply Ball x-position
     bouncingBall.style.left = `${ballXPos}px`
@@ -121,7 +112,7 @@ function followBall() {
 function ballMoveRight() {
     // Ball Moving right twoards comp paddle
     if (ballLeftRight === 0) {
-        if (-1 < ballXPos < 660) {
+        if (-1 < ballXPos < 659) {
             ballXPos = ballXPos + ballXVel
         }
 
@@ -133,6 +124,12 @@ function ballMoveRight() {
 }
 
 function ballMoveLeft() {
+    if (ballXPos === 20 && (playerPaddleYPosition <= ballYPos && ballYPos <= (playerPaddleYPosition + 100))) {
+        console.log('Inner Ball Mover')
+        ballLeftRight = 0
+        ballMoveRight();
+    }
+
     //  Returning Ball from Computer Paddle
     if (ballLeftRight === 1) {
         if (680 > ballXPos > -1) {
@@ -169,7 +166,7 @@ function ballMoveDown() {
 }
 
 function playerPaddleMove(playerPaddle) {
-    console.log(playerPaddle)
+    console.log(playerPaddleYPosition)
     switch (playerPaddle.key) {
         case "Down":
         case "ArrowDown":
